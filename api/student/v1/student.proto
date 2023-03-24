@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package api.student.v1;
+import "google/api/annotations.proto";
+
+option go_package = "helloworld/api/student/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.student.v1";
+
+// 这个是rpc + http 接口
+service Student {
+	rpc CallStudent (StudentRequest) returns (StudentReply) {
+		// http 请求
+		option (google.api.http) = {
+			get: "/student/{name}/{age}"
+			additional_bindings{
+				//post
+				post: "/v1/student"
+				body: "*"
+			}
+		};
+	}
+}
+
+message StudentRequest {
+	string name = 1;
+	uint32 age = 2;
+}
+
+message StudentReply {
+	string message = 1;
+}
+//service Student {
+//	rpc CreateStudent (CreateStudentRequest) returns (CreateStudentReply);
+//	rpc UpdateStudent (UpdateStudentRequest) returns (UpdateStudentReply);
+//	rpc DeleteStudent (DeleteStudentRequest) returns (DeleteStudentReply);
+//	rpc GetStudent (GetStudentRequest) returns (GetStudentReply);
+//	rpc ListStudent (ListStudentRequest) returns (ListStudentReply);
+//}
+//
+//
+//message CreateStudentRequest {}
+//message CreateStudentReply {}
+//
+//message UpdateStudentRequest {}
+//message UpdateStudentReply {}
+//
+//message DeleteStudentRequest {}
+//message DeleteStudentReply {}
+//
+//message GetStudentRequest {}
+//message GetStudentReply {}
+//
+//message ListStudentRequest {}
+//message ListStudentReply {}

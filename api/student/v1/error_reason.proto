@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package api.student.v1;
+
+option go_package = "helloworld/api/student/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.student.v1";
+
+enum ErrorReason {
+	GREETER_UNSPECIFIED = 0;
+	USRMODEL_USERNOTFOUND = 1;
+}
+
+//service ErrorReason {
+//	rpc CreateErrorReason (CreateErrorReasonRequest) returns (CreateErrorReasonReply);
+//	rpc UpdateErrorReason (UpdateErrorReasonRequest) returns (UpdateErrorReasonReply);
+//	rpc DeleteErrorReason (DeleteErrorReasonRequest) returns (DeleteErrorReasonReply);
+//	rpc GetErrorReason (GetErrorReasonRequest) returns (GetErrorReasonReply);
+//	rpc ListErrorReason (ListErrorReasonRequest) returns (ListErrorReasonReply);
+//}
