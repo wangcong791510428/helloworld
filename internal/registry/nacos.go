@@ -39,15 +39,16 @@ func NewNacosRegistry(c *conf.Server) vo.NacosClientParam {
 
 // NewDiscovery nacos服务发现注入
 func NewDiscovery(param vo.NacosClientParam) registry.Discovery {
-	client, _ := clients.NewNamingClient(param)
-
+	client, err := clients.NewNamingClient(param)
+	if err != nil {
+		fmt.Println("err====", err)
+	}
 
 	return nacos.New(client)
 }
 
 // NewRegistrar 服务注册业务注入
 func NewRegistrar(param vo.NacosClientParam) registry.Registrar {
-	fmt.Printf("param = %+v", param)
 	iClient, err := clients.NewNamingClient(param)
 	if err != nil {
 		fmt.Println("err====", err)

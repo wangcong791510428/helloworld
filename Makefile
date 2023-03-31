@@ -43,7 +43,6 @@ api:
  	       --go-grpc_out=paths=source_relative:./api \
 	       --openapi_out=fq_schema_naming=true,default_response=false:. \
 	       ./api/*/v1/*.proto
-#	       $(API_PROTO_FILES)
 
 .PHONY: build
 # build
