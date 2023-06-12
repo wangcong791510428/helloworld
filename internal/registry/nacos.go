@@ -54,5 +54,7 @@ func NewRegistrar(param vo.NacosClientParam) registry.Registrar {
 		fmt.Println("err====", err)
 	}
 
-	return nacos.New(iClient)
+	// 设置权重
+	wightOption := nacos.WithWeight(12)
+	return nacos.New(iClient, wightOption)
 }

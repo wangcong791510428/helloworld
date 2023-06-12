@@ -6,6 +6,8 @@ import (
 	"github.com/go-kratos/kratos/v2/registry"
 	"net/url"
 	"os"
+	"path"
+	"runtime"
 
 	"helloworld/internal/conf"
 
@@ -23,9 +25,9 @@ import (
 // go build -ldflags "-X main.Version=x.y.z"
 var (
 	// Name is the name of the compiled software.
-	Name string
+	Name = "hello.test.service"
 	// Version is the version of the compiled software.
-	Version string
+	Version = "v1.0"
 	// flagconf is the config flag.
 	flagconf string
 
@@ -38,14 +40,6 @@ func init() {
 }
 
 func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, registry registry.Registrar) *kratos.App {
-	if Name == "" {
-		Name = "用户中心"
-	}
-	if Version == "" {
-		Version = "v1.0"
-	}
-	// http://127.0.0.1:8000?isSecure=false
-	// grpc://127.0.0.1:9000?isSecure=false
 	urlHttp, _:= url.Parse("http://127.0.0.1:8000?isSecure=true")
 	urlGrpc, _:= url.Parse("grpc://127.0.0.1:9000?isSecure=true")
 	return kratos.New(
@@ -67,7 +61,10 @@ func newApp(logger log.Logger, gs *grpc.Server, hs *http.Server, registry regist
 }
 
 func main() {
+	fmt.Println("getCurrentAbPathByExecutable = ", getCurrentAbPathByCaller())
 	flag.Parse()
+	flagconf = getCurrentAbPathByCaller()+ "/" +flagconf
+
 	logger := log.With(log.NewStdLogger(os.Stdout),
 		"ts", log.DefaultTimestamp,
 		"caller", log.DefaultCaller,
@@ -103,4 +100,15 @@ func main() {
 	if err = app.Run(); err != nil {
 		panic(any(err))
 	}
+}
+
+
+// 获取当前执行程序所在的绝对路径
+func getCurrentAbPathByCaller() string {
+	var abPath string
+	_, filename, _, ok := runtime.Caller(0)
+	if ok {
+		abPath = path.Dir(filename)
+	}
+	return abPath
 }

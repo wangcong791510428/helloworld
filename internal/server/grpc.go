@@ -1,6 +1,8 @@
 package server
 
 import (
+	//"github.com/go-kratos/kratos/v2/metadata"
+	"github.com/go-kratos/kratos/v2/middleware/metadata"
 	v1 "helloworld/api/helloworld/v1"
 	student_v1 "helloworld/api/student/v1"
 	"helloworld/internal/conf"
@@ -16,6 +18,7 @@ func NewGRPCServer(c *conf.Server, greeter *service.GreeterService, student *ser
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
+			metadata.Server(),
 		),
 	}
 	if c.Grpc.Network != "" {
